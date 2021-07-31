@@ -1,0 +1,6 @@
+/backend/data.db
+/frontend/node_modules/
+.idea
+backend/__pycache__/app.cpython-37.pyc
+frontend/.gitignore
+frontend/README.md
