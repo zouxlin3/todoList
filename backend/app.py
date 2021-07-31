@@ -64,7 +64,7 @@ def home():
     res = {
         'todos': [],
     }
-    
+
     todos = Todo.query.filter(Todo.user_id == current_user.id)
 
     for i in todos:
@@ -199,7 +199,11 @@ def initdb():  # 初始化数据库
 
     admin = User(name='admin')
     admin.set_password('admin')
+    todo1 = Todo(user_id=admin.id, content='test1', is_completed=False)
+    todo2 = Todo(user_id=admin.id, content='test2', is_completed=False)
     db.session.add(admin)
+    db.session.add(todo1)
+    db.session.add(todo2)
     db.session.commit()
 
     click.echo('Initialized database.')
