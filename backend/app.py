@@ -56,12 +56,15 @@ class Todo(db.Model):
     content = db.Column(db.String(60))
     is_completed = db.Column(db.Boolean)
 
+def temp_login():
+    admin = User.query.filter(User.name == 'admin').first()
+    login_user(admin)  # 全部登录admin
+
 
 @app.route('/get_todos', methods=['GET'])
-# @login_required
+@login_required
 def get_todos():
-    admin = User.query.filter(User.name == 'admin').first()
-    login_user(admin)  # 登录admin
+    temp_login()  # !
 
     res = {
         'todos': [],
@@ -76,9 +79,9 @@ def get_todos():
 
 
 @app.route('/get_name', methods=['GET'])
+@login_required
 def get_name():
-    admin = User.query.filter(User.name == 'admin').first()
-    login_user(admin)  # 登录admin
+    temp_login  # !
 
     res = {'name': current_user.name}
 
@@ -86,8 +89,10 @@ def get_name():
 
 
 @app.route('/add', methods=['GET'])
-# @login_required
+@login_required
 def add():
+    temp_login()  # !
+
     content = request.args.get('content')
     todo = Todo(user=current_user.id, content=content, is_completed=False)
     db.session.add(todo)
@@ -100,8 +105,10 @@ def add():
 
 
 @app.route('/delete', methods=['GET'])
-# @login_required
+@login_required
 def delete():
+    temp_login()  # !
+
     todo_id = request.args.get('id')
     db.session.delete(Todo.query.filter(Todo.id == todo_id).first())
 
@@ -110,8 +117,10 @@ def delete():
 
 
 @app.route('/complete', methods=['GET'])
-# @login_required
+@login_required
 def complete():
+    temp_login()  # !
+    
     todo_id = request.args.get('id')
     todo = Todo.query.filter(Todo.id == todo_id).first()
 
