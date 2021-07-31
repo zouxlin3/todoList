@@ -70,11 +70,7 @@ def get_todos():
     todos = Todo.query.filter(Todo.user_id == current_user.id)
 
     for i in todos:
-        res['todos'].append({
-            'id': i.id,
-            'content': i.content,
-            'is_completed': i.is_completed
-        })
+        res['todos'].append({todo2json(i)})
 
     return jsonify(res), 200
 
@@ -97,7 +93,10 @@ def add():
     db.session.add(todo)
 
     db.session.commit()
-    return 200
+
+    todo = Todo.query.filter(Todo.content == req['content']).first()
+    
+    return jsonify(todo2json(todo)), 200
 
 
 @app.route('/delete', methods=['GET'])
@@ -193,6 +192,15 @@ def reset_password():
     db.session.commit()
     return 200
 '''
+
+def todo2json(todo):
+    result = {
+        'id': todo.id,
+        'content': todo.content,
+        'is_completed': todo.is_completed
+    }
+
+    return result
 
 @app.cli.command('init')  # 注册为命令
 def initdb():  # 初始化数据库
