@@ -13,20 +13,27 @@ class List extends React.Component {
 
     constructor(props){
         super(props);
+        props.onRef(this)
+
         this.state={
             todos:[]
         }
     }
 
     componentDidMount(){
-        const _this=this;
         axios
         .get(api+'get_todos')
         .then(response => (
-            _this.setState({
+            this.setState({
                 todos:response.data['todos']
             })
         ))
+    }
+
+    add(newTodo){
+      this.setState({
+        todos: [...this.state.todos, newTodo]
+      })
     }
 
     render() {

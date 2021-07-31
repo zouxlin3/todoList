@@ -14,20 +14,19 @@ class Nav extends React.Component{
     }
 
     componentDidMount(){
-        const _this=this;
-        axios
+        /*axios
         .get(api+'get_name')
         .then(response => (
-            _this.setState({
+            this.setState({
                 username:response.data['name']
             })
-        ))
+        ))*/
     }
 
     render(){
         return (
             <Row>
-                <Col span={6} style={{color:"white"}}>Hello,{this.state.username}</Col>
+                <Col span={6} style={{color:"white"}}>Hello,{/*this.state.username*/}</Col>
             </Row>
         )
     }

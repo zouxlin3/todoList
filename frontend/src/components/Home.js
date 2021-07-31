@@ -1,7 +1,8 @@
 import React from 'react';
-import { Layout, Row, Col } from 'antd';
+import { Layout } from 'antd';
 import List from './List';
 import Nav from './Nav';
+import Add from './Add';
 import '../index.css';
 
 const { Header, Content } = Layout;
@@ -19,11 +20,20 @@ class Home extends React.Component{
                         <Nav />
                     </Header>
                     <Content>
-                        <List />
+                        <Add add={this.add.bind(this)} />
+                        <List onRef={this.list_ref.bind(this)}/>
                     </Content>
                 </Layout>
             </div>
         )
+    }
+
+    list_ref(ref){
+        this.list = ref
+    }
+
+    add(newTodo){
+        this.list.add(newTodo)
     }
 }
 
