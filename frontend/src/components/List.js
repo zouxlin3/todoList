@@ -1,7 +1,7 @@
 import React from 'react';
 import ListSort from './ListSort.jsx';
-import './index.css';
-import './List.css';
+import '../index.css';
+import '../assets/List.css';
 import axios from 'axios'
 
 const api = 'http://localhost:5000/'

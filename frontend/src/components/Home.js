@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout, Row, Col } from 'antd';
 import List from './List';
-import './index.css';
+import '../index.css';
 import axios from 'axios'
 
 const api = 'http://localhost:5000/'
