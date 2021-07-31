@@ -57,9 +57,9 @@ class Todo(db.Model):
     is_completed = db.Column(db.Boolean)
 
 
-@app.route('/home', methods=['GET'])
+@app.route('/get_todos', methods=['GET'])
 @login_required
-def home():
+def get_todos():
 
     res = {
         'todos': [],
@@ -199,11 +199,13 @@ def initdb():  # 初始化数据库
 
     admin = User(name='admin')
     admin.set_password('admin')
-    todo1 = Todo(user_id=admin.id, content='test1', is_completed=False)
-    todo2 = Todo(user_id=admin.id, content='test2', is_completed=False)
     db.session.add(admin)
+
+    todo1 = Todo(user_id=1, content='test1', is_completed=False)
+    todo2 = Todo(user_id=1, content='test2', is_completed=False)
     db.session.add(todo1)
     db.session.add(todo2)
+    
     db.session.commit()
 
     click.echo('Initialized database.')
