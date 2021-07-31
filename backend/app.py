@@ -26,7 +26,7 @@ else:
 app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'data.db',)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
+'''
 login_manager = LoginManager(app)
 
 
@@ -47,54 +47,46 @@ class User(db.Model, UserMixin):
 
     def validate_password(self, password):
         return check_password_hash(self.password_hash, password)
-
+'''
 
 class Todo(db.Model):
     __tablename__ = 'todos'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
+    # user_id = db.Column(db.Integer)
     content = db.Column(db.String(60))
     is_completed = db.Column(db.Boolean)
 
-def temp_login():
-    admin = User.query.filter(User.name == 'admin').first()
-    login_user(admin)  # 全部登录admin
-
 
 @app.route('/get_todos', methods=['GET'])
-@login_required
+# @login_required
 def get_todos():
-    temp_login()  # !
-
     res = {
         'todos': [],
     }
 
-    todos = Todo.query.filter(Todo.user_id == current_user.id)
+    # todos = Todo.query.filter(Todo.user_id == current_user.id)
+    todos = Todo.query.filter()
 
     for i in todos:
         res['todos'].append(todo2json(i))
 
     return jsonify(res), 200
 
-
+'''
 @app.route('/get_name', methods=['GET'])
 @login_required
 def get_name():
-    temp_login  # !
-
     res = {'name': current_user.name}
 
     return jsonify(res), 200
-
+'''
 
 @app.route('/add', methods=['GET'])
-@login_required
+# @login_required
 def add():
-    temp_login()  # !
-
     content = request.args.get('content')
-    todo = Todo(user=current_user.id, content=content, is_completed=False)
+    # todo = Todo(user=current_user.id, content=content, is_completed=False)
+    todo = Todo(content=content, is_completed=False)
     db.session.add(todo)
 
     db.session.commit()
@@ -105,10 +97,8 @@ def add():
 
 
 @app.route('/delete', methods=['GET'])
-@login_required
+# @login_required
 def delete():
-    temp_login()  # !
-
     todo_id = request.args.get('id')
     db.session.delete(Todo.query.filter(Todo.id == todo_id).first())
 
@@ -117,10 +107,8 @@ def delete():
 
 
 @app.route('/complete', methods=['GET'])
-@login_required
+# @login_required
 def complete():
-    temp_login()  # !
-    
     todo_id = request.args.get('id')
     todo = Todo.query.filter(Todo.id == todo_id).first()
 
@@ -211,13 +199,15 @@ def todo2json(todo):
 def initdb():  # 初始化数据库
     db.drop_all()
     db.create_all()
-
+    '''
     admin = User(name='admin')
     admin.set_password('admin')
     db.session.add(admin)
-
+    
     todo1 = Todo(user_id=1, content='test1', is_completed=False)
-    todo2 = Todo(user_id=1, content='test2', is_completed=False)
+    todo2 = Todo(user_id=1, content='test2', is_completed=False)'''
+    todo1 = Todo(content='test1', is_completed=False)
+    todo2 = Todo(content='test2', is_completed=False)
     db.session.add(todo1)
     db.session.add(todo2)
 
