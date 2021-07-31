@@ -1,0 +1,40 @@
+.List-wrapper {
+    position: relative;
+    background: #e6e6e6;
+    overflow: hidden;
+    height: 385px;
+  }
+  
+  .List {
+    margin: 40px auto;
+    max-width: 350px;
+    width: 90%;
+    position: relative;
+    height: 305px;
+  }
+  .List > div{
+    overflow: hidden;
+  }
+  
+  .List-card {
+    background: #fff;
+    border-radius: 6px;
+    margin: 5px auto;
+    padding: 10px;
+    height: 70px;
+    transition:  box-shadow .5s, transform .5s;
+  }
+  
+  .List-card.card-drag-selected{
+    box-shadow: 0 8px 20px #E6E6E6;
+    transform: scale(1.1) !important;
+  }
+
+  .List-content{
+    width: 80%;
+    display: inline-block;
+  }
+  
+  .List-content p{
+    font-size: 12px;
+  }

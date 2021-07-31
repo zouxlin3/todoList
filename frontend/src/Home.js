@@ -1,11 +1,12 @@
 import React from 'react';
 import { Layout, Row, Col } from 'antd';
+import List from './List';
 import './index.css';
 import axios from 'axios'
 
 const api = 'http://localhost:5000/'
 
-const { Header, Footer, Content } = Layout;
+const { Header, Content } = Layout;
 
 class Home extends React.Component{
     constructor(props){
@@ -19,6 +20,9 @@ class Home extends React.Component{
                     <Header style={{backgroundColor:"#007bff"}}>
                         <Nav />
                     </Header>
+                    <Content>
+                        <List />
+                    </Content>
                 </Layout>
             </div>
         )

@@ -58,8 +58,10 @@ class Todo(db.Model):
 
 
 @app.route('/get_todos', methods=['GET'])
-@login_required
+# @login_required
 def get_todos():
+    admin = User.query.filter(User.name == 'admin').first()
+    login_user(admin)  # 登录admin
 
     res = {
         'todos': [],
@@ -205,7 +207,7 @@ def initdb():  # 初始化数据库
     todo2 = Todo(user_id=1, content='test2', is_completed=False)
     db.session.add(todo1)
     db.session.add(todo2)
-    
+
     db.session.commit()
 
     click.echo('Initialized database.')
