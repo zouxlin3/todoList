@@ -70,7 +70,7 @@ def get_todos():
     todos = Todo.query.filter(Todo.user_id == current_user.id)
 
     for i in todos:
-        res['todos'].append({todo2json(i)})
+        res['todos'].append(todo2json(i))
 
     return jsonify(res), 200
 
@@ -88,13 +88,13 @@ def get_name():
 @app.route('/add', methods=['GET'])
 # @login_required
 def add():
-    req = json.loads(request.get_data())
-    todo = Todo(user=current_user.id, content=req['content'], is_completed=False)
+    content = request.args.get('content')
+    todo = Todo(user=current_user.id, content=content, is_completed=False)
     db.session.add(todo)
 
     db.session.commit()
 
-    todo = Todo.query.filter(Todo.content == req['content']).first()
+    todo = Todo.query.filter(Todo.content == content).first()
     
     return jsonify(todo2json(todo)), 200
 
@@ -102,8 +102,8 @@ def add():
 @app.route('/delete', methods=['GET'])
 # @login_required
 def delete():
-    req = json.loads(request.get_data())
-    db.session.delete(Todo.query.filter(Todo.id == req['id']).first())
+    todo_id = request.args.get('id')
+    db.session.delete(Todo.query.filter(Todo.id == todo_id).first())
 
     db.session.commit()
     return 200
@@ -112,8 +112,8 @@ def delete():
 @app.route('/complete', methods=['GET'])
 # @login_required
 def complete():
-    req = json.loads(request.get_data())
-    todo = Todo.query.filter(Todo.id == req['id']).first()
+    todo_id = request.args.get('id')
+    todo = Todo.query.filter(Todo.id == todo_id).first()
 
     if todo.is_completed:
         todo.is_completed = False
@@ -126,9 +126,8 @@ def complete():
 '''
 @app.route('/login', methods=['GET'])
 def login():
-    req = json.loads(request.get_data())
-    name = req['name']
-    password = req['password']
+    name = request.args.get('name')
+    password = request.args.get('password')
 
     user = User.query.filter(User.name == name).first()
     if user is None:
@@ -150,9 +149,8 @@ def logout():
 
 @app.route('/register', methods=['GET'])
 def register():
-    req = json.loads(request.get_data())
-    name = req['name']
-    password = req['password']
+    name = request.args.get('name')
+    password = request.args.get('password')
 
     check_user = User.query.filter(User.name == name).first()
     if check_user is not None:
@@ -169,8 +167,7 @@ def register():
 @app.route('/reset_name', methods=['GET'])
 @login_required
 def reset_name():
-    req = json.loads(request.get_data())
-    name = req['name']
+    name = request.args.get('name')
 
     check_user = User.query.filter(User.name == name).first()
     if check_user is not None:
@@ -185,8 +182,7 @@ def reset_name():
 @app.route('/reset_password', methods=['GET'])
 @login_required
 def reset_password():
-    req = json.loads(request.get_data())
-    password = req['password']
+    password = request.args.get('password')
     current_user.set_password(password)
 
     db.session.commit()
