@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button} from 'antd';
+import { Input, Button, Row, Col} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import '../index.css';
 import axios from 'axios'
@@ -23,11 +23,20 @@ class Add extends React.Component{
     render(){
         return (
             <div>
-                <Input placeholder="添加任务" allowClear maxLength="60" onChange={this.get_value.bind(this)}/>
-                <Button type="primary" 
-                shape="circle" 
-                icon={<PlusOutlined />} 
-                onClick={this.props.add.bind(this, this.state.content)} />
+                <Row>
+                    <Col span={23}>
+                        <Input placeholder="添加任务" 
+                        allowClear 
+                        maxLength="60" 
+                        onChange={this.get_value.bind(this)}/>
+                        </Col>
+                    <Col span={1}>
+                        <Button type="primary" 
+                        shape="circle" 
+                        icon={<PlusOutlined />} 
+                        onClick={this.props.add.bind(this, this.state.content)} />
+                    </Col>
+                </Row>
             </div>
         )
     }
