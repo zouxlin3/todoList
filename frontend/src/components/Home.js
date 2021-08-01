@@ -16,7 +16,9 @@ class Home extends React.Component{
 
         this.state={
             username: '',
-            todos: []
+            todos: [],
+            keyword: '',
+            todos2show: []
         }
     }
 
@@ -40,7 +42,8 @@ class Home extends React.Component{
         .get(api+'get_todos')
         .then(response => (
             this.setState({
-                todos:response.data['todos']
+                todos:response.data['todos'],
+                todos2show:response.data['todos']
             })
         ))
     }
@@ -54,11 +57,13 @@ class Home extends React.Component{
           if(todos[i]['id'] == id){
             todos.splice(i, 1)
             this.setState({
-              todos: todos
+              todos: todos,
             })
             break
           }
         }
+
+        this.search(this.state.keyword)
     }
 
     complete(id){
@@ -75,6 +80,8 @@ class Home extends React.Component{
             break
           }
         }
+
+        this.search(this.state.keyword)
     }
 
     add(content){
@@ -83,8 +90,35 @@ class Home extends React.Component{
         .then(response => (
             this.setState({
                 todos: [...this.state.todos, response.data]
-            })
+            }),
+            this.search(this.state.keyword)
         ))
+    }
+
+    search(keyword){
+        this.setState({
+            keyword: keyword
+        })
+
+        if(keyword){
+            this.setState({
+                todos2show: []
+            })
+
+            var todos = this.state.todos
+            for (var i=0; i<todos.length; i++){
+                if(todos[i]['content'].match(keyword)){
+                    this.setState({
+                        todos2show: [...this.state.todos2show, todos[i]]
+                    })
+                }
+            }
+        }
+        else{
+            this.setState({
+                todos2show: this.state.todos
+            })
+        }
     }
 
     render(){
@@ -92,11 +126,11 @@ class Home extends React.Component{
             <div className="Home">
                 <Layout>
                     <Header style={{backgroundColor:"#007bff"}}>
-                        <Nav username={this.state.username} />
+                        <Nav username={this.state.username} search={this.search.bind(this)} />
                     </Header>
                     <Content>
                         <Add add={this.add.bind(this)} />
-                        <List todos={this.state.todos} 
+                        <List todos={this.state.todos2show} 
                         delete={this.delete.bind(this)} 
                         complete={this.complete.bind(this)} />
                     </Content>
