@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Input, Button, Row, Col} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import '../index.css';
@@ -15,6 +16,10 @@ class Add extends React.Component{
         this.setState({
             content: event.target.value
         })
+    }
+
+    add(){
+        this.props.add(this.state.content)
     }
 
     render(){
@@ -61,11 +66,12 @@ class Add extends React.Component{
                 maxLength="60" 
                 onChange={this.get_value.bind(this)}
                 bordered='false'
+                onPressEnter={this.add.bind(this)}
                 style={input_style}/>
                 <Button type="primary" 
                 shape="circle" 
                 icon={<PlusOutlined />} 
-                onClick={this.props.add.bind(this, this.state.content)} 
+                onClick={this.add.bind(this)}
                 style={button_style}/>
             </div>
         )
