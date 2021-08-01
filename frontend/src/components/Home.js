@@ -4,12 +4,87 @@ import List from './List';
 import Nav from './Nav';
 import Add from './Add';
 import '../index.css';
+import axios from 'axios';
+
+const api = 'http://localhost:5000/'
 
 const { Header, Content } = Layout;
 
 class Home extends React.Component{
     constructor(props){
         super(props);
+
+        this.state={
+            username: '',
+            todos: []
+        }
+    }
+
+    componentDidMount(){
+        //this.get_name()
+        this.getTodos()
+    }
+
+    /*get_name(){
+        axios
+        .get(api+'get_name')
+        .then(response => (
+            this.setState({
+                username:response.data['name']
+            })
+        ))
+    }*/
+
+    getTodos(){
+        axios
+        .get(api+'get_todos')
+        .then(response => (
+            this.setState({
+                todos:response.data['todos']
+            })
+        ))
+    }
+
+    delete(id){
+        axios
+        .get(api+'delete?id='+id)
+  
+        var todos = this.state.todos
+        for (var i=0; i<todos.length; i++){
+          if(todos[i]['id'] == id){
+            todos.splice(i, 1)
+            this.setState({
+              todos: todos
+            })
+            break
+          }
+        }
+    }
+
+    complete(id){
+        axios
+        .get(api+'complete?id='+id)
+  
+        var todos = this.state.todos
+        for (var i=0; i<todos.length; i++){
+          if(todos[i]['id'] == id){
+            todos[i]['is_completed'] = !todos[i]['is_completed']
+            this.setState({
+              todos: todos
+            })
+            break
+          }
+        }
+    }
+
+    add(content){
+        axios
+        .get(api+'add?content='+content)
+        .then(response => (
+            this.setState({
+                todos: [...this.state.todos, response.data]
+            })
+        ))
     }
 
     render(){
@@ -17,23 +92,17 @@ class Home extends React.Component{
             <div className="Home">
                 <Layout>
                     <Header style={{backgroundColor:"#007bff"}}>
-                        <Nav />
+                        <Nav username={this.state.username} />
                     </Header>
                     <Content>
                         <Add add={this.add.bind(this)} />
-                        <List onRef={this.list_ref.bind(this)}/>
+                        <List todos={this.state.todos} 
+                        delete={this.delete.bind(this)} 
+                        complete={this.complete.bind(this)} />
                     </Content>
                 </Layout>
             </div>
         )
-    }
-
-    list_ref(ref){
-        this.list = ref
-    }
-
-    add(newTodo){
-        this.list.add(newTodo)
     }
 }
 

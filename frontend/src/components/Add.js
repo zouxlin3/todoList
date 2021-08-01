@@ -20,19 +20,14 @@ class Add extends React.Component{
         })
     }
 
-    add(){
-        axios
-        .get(api+'add?content='+this.state.content)
-        .then(response => (
-            this.props.add(response.data)
-        ))
-    }
-
     render(){
         return (
             <div>
                 <Input placeholder="添加任务" allowClear maxLength="60" onChange={this.get_value.bind(this)}/>
-                <Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={this.add.bind(this)} />
+                <Button type="primary" 
+                shape="circle" 
+                icon={<PlusOutlined />} 
+                onClick={this.props.add.bind(this, this.state.content)} />
             </div>
         )
     }
