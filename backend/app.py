@@ -2,7 +2,7 @@ import os
 import platform
 import click
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -70,7 +70,7 @@ def get_todos():
     for i in todos:
         res['todos'].append(todo2json(i))
 
-    return jsonify(res), 200
+    return jsonify(res)
 
 '''
 @app.route('/get_name', methods=['GET'])
@@ -78,7 +78,7 @@ def get_todos():
 def get_name():
     res = {'name': current_user.name}
 
-    return jsonify(res), 200
+    return jsonify(res)
 '''
 
 @app.route('/add', methods=['GET'])
@@ -93,7 +93,7 @@ def add():
 
     todo = Todo.query.filter(Todo.content == content).first()
     
-    return jsonify(todo2json(todo)), 200
+    return jsonify(todo2json(todo))
 
 
 @app.route('/delete', methods=['GET'])
@@ -103,7 +103,7 @@ def delete():
     db.session.delete(Todo.query.filter(Todo.id == todo_id).first())
 
     db.session.commit()
-    return 200
+    return Response(status=200)
 
 
 @app.route('/complete', methods=['GET'])
@@ -118,7 +118,7 @@ def complete():
         todo.is_completed = True
 
     db.session.commit()
-    return 200
+    return Response(status=200)
 
 '''
 @app.route('/login', methods=['GET'])
@@ -132,7 +132,7 @@ def login():
     else:
         if user.validate_password(password):
             login_user(user)
-            return 200
+            return Response(status=200)
         else:
             return 'Wrong password'
 
@@ -141,7 +141,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return 200
+    return Response(status=200)
 
 
 @app.route('/register', methods=['GET'])
@@ -158,7 +158,7 @@ def register():
         db.session.add(user)
 
         db.session.commit()
-        return 200
+        return Response(status=200)
 
 
 @app.route('/reset_name', methods=['GET'])
@@ -173,7 +173,7 @@ def reset_name():
         current_user.name = name
 
         db.session.commit()
-        return 200
+        return Response(status=200)
 
 
 @app.route('/reset_password', methods=['GET'])
@@ -183,7 +183,7 @@ def reset_password():
     current_user.set_password(password)
 
     db.session.commit()
-    return 200
+    return Response(status=200)
 '''
 
 def todo2json(todo):
