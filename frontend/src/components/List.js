@@ -27,7 +27,7 @@ class List extends React.Component {
       const Todo = this.props.todos.map((todo, i) => {
         const { id, content, is_completed } = todo;
         return (
-          <div key={id+''+i} className={`${this.props.className}-card`}>
+          <div key={id} className={`${this.props.className}-card`}>
             <Row align="middle">
               <Col className={`${this.props.className}-content`} span={8}>
                 {this.todo_content(content, is_completed)}

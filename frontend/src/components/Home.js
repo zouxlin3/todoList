@@ -105,18 +105,18 @@ class Home extends React.Component{
         })
 
         if(keyword){
-            this.setState({
-                todos2show: []
-            })
-
             var todos = this.state.todos
+            var todos2show = []
             for (var i=0; i<todos.length; i++){
                 if(todos[i]['content'].match(keyword)){
-                    this.setState({
-                        todos2show: [...this.state.todos2show, todos[i]]
-                    })
+                    console.log(todos[i]['id'])
+                    todos2show = [...todos2show, todos[i]]
                 }
             }
+
+            this.setState({
+                todos2show: todos2show
+            })
         }
         else{
             this.setState({
@@ -162,7 +162,7 @@ class Home extends React.Component{
                     </Header>
                     <Content>
                         <Add add={this.add.bind(this)} />
-                        <h4 class="apptitle">任务</h4>
+                        <h4 className="apptitle">任务</h4>
                         <List todos={this.state.todos2show} 
                         delete={this.delete.bind(this)} 
                         complete={this.complete.bind(this)}
