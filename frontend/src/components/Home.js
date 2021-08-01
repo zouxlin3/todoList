@@ -55,17 +55,18 @@ class Home extends React.Component{
     delete(id){
         axios
         .get(api+'delete?id='+id)
-  
+
         var todos = this.state.todos
         for (var i=0; i<todos.length; i++){
           if(todos[i]['id'] == id){
             todos.splice(i, 1)
-            this.setState({
-              todos: todos,
-            })
             break
           }
         }
+
+        this.setState({
+            todos: todos,
+        })
 
         this.search(this.state.keyword)
     }
@@ -79,7 +80,7 @@ class Home extends React.Component{
           if(todos[i]['id'] == id){
             todos[i]['is_completed'] = !todos[i]['is_completed']
             this.setState({
-              todos: todos
+              todos: todos,
             })
             break
           }
