@@ -28,7 +28,7 @@ class List extends React.Component {
         const { id, content, is_completed } = todo;
         return (
           <div key={id+''+i} className={`${this.props.className}-card`}>
-            <Row>
+            <Row align="middle">
               <Col className={`${this.props.className}-content`} span={8}>
                 {this.todo_content(content, is_completed)}
               </Col>
@@ -54,7 +54,7 @@ class List extends React.Component {
         );
       });
       return (
-        <div className={`${this.props.className}-wrapper`}>
+        <div className={`${this.props.className}-wrapper`} style={{backgroundColor: '#f0f2f5'}}>
           <div className={this.props.className}>
             <ListSort
               dragClassName="card-drag-selected"

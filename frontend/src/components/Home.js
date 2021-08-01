@@ -157,11 +157,12 @@ class Home extends React.Component{
                     <Pic pic_url={this.state.pic_url} pic_id={this.state.pic_id} />
                 </Modal>
                 <Layout>
-                    <Header style={{backgroundColor:"#007bff"}}>
+                    <Header style={{backgroundColor:"#007bff", height:'56px'}}>
                         <Nav username={this.state.username} search={this.search.bind(this)} />
                     </Header>
                     <Content>
                         <Add add={this.add.bind(this)} />
+                        <h4 class="apptitle">任务</h4>
                         <List todos={this.state.todos2show} 
                         delete={this.delete.bind(this)} 
                         complete={this.complete.bind(this)}

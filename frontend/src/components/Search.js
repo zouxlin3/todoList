@@ -14,12 +14,13 @@ class Search extends React.Component{
 
     render(){
         return (
-            <div>
+            <div style={{height:'56'}}>
                 <Input placeholder="搜索" 
                 allowClear 
                 maxLength="60" 
                 onChange={this.search.bind(this)}
-                prefix={<SearchOutlined />}/>
+                prefix={<SearchOutlined />}
+                />
             </div>
         )
     }
