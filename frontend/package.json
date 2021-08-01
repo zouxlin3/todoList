@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "antd": "^4.16.9",
+    "hydrogen-js-sdk": "^2.2.4",
     "prop-types": "^15.7.2",
     "rc-queue-anim": "^2.0.0",
     "rc-tween-one": "^2.7.3",

@@ -55,6 +55,7 @@ class Todo(db.Model):
     # user_id = db.Column(db.Integer)
     content = db.Column(db.String(60))
     is_completed = db.Column(db.Boolean)
+    pic_url = db.Column(db.String)
 
 
 @app.route('/get_todos', methods=['GET'])
@@ -86,7 +87,7 @@ def get_name():
 def add():
     content = request.args.get('content')
     # todo = Todo(user=current_user.id, content=content, is_completed=False)
-    todo = Todo(content=content, is_completed=False)
+    todo = Todo(content=content, is_completed=False, pic_url='')
     db.session.add(todo)
 
     db.session.commit()
@@ -118,6 +119,18 @@ def complete():
         todo.is_completed = True
 
     db.session.commit()
+    return Response(status=200)
+
+@app.route('/add_pic', methods=['GET'])
+# @login_required
+def add_pic():
+    todo_id = request.args.get('id')
+    pic_url = request.args.get('pic_url')
+    todo = Todo.query.filter(Todo.id == todo_id).first()
+
+    todo.pic_url = pic_url
+    db.session.commit()
+
     return Response(status=200)
 
 '''
@@ -190,7 +203,8 @@ def todo2json(todo):
     result = {
         'id': todo.id,
         'content': todo.content,
-        'is_completed': todo.is_completed
+        'is_completed': todo.is_completed,
+        'pic_url': todo.pic_url
     }
 
     return result
@@ -206,8 +220,8 @@ def initdb():  # 初始化数据库
     
     todo1 = Todo(user_id=1, content='test1', is_completed=False)
     todo2 = Todo(user_id=1, content='test2', is_completed=False)'''
-    todo1 = Todo(content='test1', is_completed=False)
-    todo2 = Todo(content='test2', is_completed=False)
+    todo1 = Todo(content='test1', is_completed=False, pic_url='https://www.img521.com/uploads/allimg/210309/4-210309103035.jpg')
+    todo2 = Todo(content='test2', is_completed=False, pic_url='')
     db.session.add(todo1)
     db.session.add(todo2)
 

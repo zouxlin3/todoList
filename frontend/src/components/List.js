@@ -1,7 +1,7 @@
 import React from 'react';
 import ListSort from './ListSort.jsx';
-import { Button} from 'antd';
-import { DeleteOutlined, CheckOutlined } from '@ant-design/icons';
+import { Button, Row, Col } from 'antd';
+import { DeleteOutlined, CheckOutlined, PictureOutlined } from '@ant-design/icons';
 import '../index.css';
 import '../assets/List.css';
 
@@ -28,18 +28,28 @@ class List extends React.Component {
         const { id, content, is_completed } = todo;
         return (
           <div key={id+''+i} className={`${this.props.className}-card`}>
-            <div className={`${this.props.className}-content`}>
-              {this.todo_content(content, is_completed)}
-            </div>
-            <Button type="primary" 
-            shape="circle" 
-            icon={<DeleteOutlined />} 
-            onClick={this.props.delete.bind(this, id)} />
-            
-            <Button type="primary" 
-            shape="circle" 
-            icon={<CheckOutlined />} 
-            onClick={this.props.complete.bind(this, id)} />
+            <Row>
+              <Col className={`${this.props.className}-content`} span={8}>
+                {this.todo_content(content, is_completed)}
+              </Col>
+              <Col span={8}></Col>
+              <Col span={8}>            
+              <Button type="primary" 
+              shape="circle" 
+              icon={<PictureOutlined />} 
+              onClick={this.props.show_pic.bind(this, id)} />
+
+              <Button type="primary" 
+              shape="circle" 
+              icon={<DeleteOutlined />} 
+              onClick={this.props.delete.bind(this, id)} />
+
+              <Button type="primary" 
+              shape="circle" 
+              icon={<CheckOutlined />} 
+              onClick={this.props.complete.bind(this, id)} />
+              </Col>
+            </Row>
           </div>
         );
       });

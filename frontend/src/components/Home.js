@@ -1,8 +1,9 @@
 import React from 'react';
-import { Layout } from 'antd';
+import { Layout, Modal, Button } from 'antd';
 import List from './List';
 import Nav from './Nav';
 import Add from './Add';
+import Pic from './Pic';
 import '../index.css';
 import axios from 'axios';
 
@@ -18,7 +19,10 @@ class Home extends React.Component{
             username: '',
             todos: [],
             keyword: '',
-            todos2show: []
+            todos2show: [],
+            isModalVisible: false,
+            pic_url: '',
+            pic_id: ''
         }
     }
 
@@ -121,9 +125,37 @@ class Home extends React.Component{
         }
     }
 
+    show_pic(id){
+        this.setState({
+            isModalVisible: true
+        })
+
+        var todos = this.state.todos
+        for (var i=0; i<todos.length; i++){
+            if(todos[i]['id'] == id){
+                this.setState({
+                    pic_url: todos[i]['pic_url'],
+                    pic_id: id
+                })
+            }
+        }
+    }
+
+    modalCancel(){
+        this.setState({
+            isModalVisible: false
+        })
+    }
+
     render(){
         return (
             <div className="Home">
+                <Modal title="" 
+                visible={this.state.isModalVisible} 
+                onCancel={this.modalCancel.bind(this)}
+                footer={[]}>
+                    <Pic pic_url={this.state.pic_url} pic_id={this.state.pic_id} />
+                </Modal>
                 <Layout>
                     <Header style={{backgroundColor:"#007bff"}}>
                         <Nav username={this.state.username} search={this.search.bind(this)} />
@@ -132,7 +164,8 @@ class Home extends React.Component{
                         <Add add={this.add.bind(this)} />
                         <List todos={this.state.todos2show} 
                         delete={this.delete.bind(this)} 
-                        complete={this.complete.bind(this)} />
+                        complete={this.complete.bind(this)}
+                        show_pic={this.show_pic.bind(this)} />
                     </Content>
                 </Layout>
             </div>
